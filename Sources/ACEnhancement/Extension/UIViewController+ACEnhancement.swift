@@ -8,11 +8,11 @@
 import UIKit
 
 extension ACENamespaceWrapper where WrappedType: UIViewController {
-    func didThroughFirstAppear() -> Bool {
+    public func didThroughFirstAppear() -> Bool {
         let `self` = wrappedValue
         return self.ace_didThroughFirstAppear
     }
-    func setFirstAppearDone() {
+    public func setFirstAppearDone() {
         let `self` = wrappedValue
         self.ace_didThroughFirstAppear = true
     }

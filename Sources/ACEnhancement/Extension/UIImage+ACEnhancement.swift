@@ -8,7 +8,7 @@
 import UIKit
 
 extension ACENamespaceWrapper where WrappedType == UIImage {
-    func cgImageWithFixedOrientation() -> CGImage? {
+    public func cgImageWithFixedOrientation() -> CGImage? {
         let `self` = wrappedValue
         
         guard let cgImage = self.cgImage, let colorSpace = cgImage.colorSpace else {
@@ -122,7 +122,7 @@ extension ACENamespaceWrapper where WrappedType == UIImage {
         let `self` = wrappedValue
         
         var newSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: radians)).integral.size
-
+        
         // Trim off the extremely small float value to prevent core graphics from rounding it up
         newSize.width = floor(newSize.width)
         newSize.height = floor(newSize.height)

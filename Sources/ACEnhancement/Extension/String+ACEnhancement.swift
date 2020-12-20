@@ -8,7 +8,7 @@ import Foundation
 
 extension String: ACENamespace {}
 extension ACENamespaceWrapper where WrappedType == String {
-    var localString: String{
+    public var localString: String{
         get {
             let `self` = wrappedValue
             return NSLocalizedString(self, comment: self)

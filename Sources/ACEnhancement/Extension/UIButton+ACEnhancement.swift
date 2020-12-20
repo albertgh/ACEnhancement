@@ -16,7 +16,7 @@ public enum ACEButtonLayout {
 extension ACENamespaceWrapper where WrappedType: UIButton {
     
     // MARK: layout
-    func layoutButton(with style: ACEButtonLayout,
+    public func layoutButton(with style: ACEButtonLayout,
                       imageTitleSpace: CGFloat) {
         let `self` = wrappedValue
         
@@ -73,11 +73,11 @@ extension ACENamespaceWrapper where WrappedType: UIButton {
     }
     
     // MARK: enlarge
-    func enlargeEdge(_ edge: CGFloat) {
+    public func enlargeEdge(_ edge: CGFloat) {
         let `self` = wrappedValue
         self.ace_enlargeEdge = edge
     }
-    func enlargeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+    public func enlargeInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
         let `self` = wrappedValue
         self.ace_setEnlargeInsets(top: top, left: left, bottom: bottom, right: right)
     }

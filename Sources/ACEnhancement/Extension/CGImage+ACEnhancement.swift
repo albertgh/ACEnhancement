@@ -11,13 +11,13 @@ extension CGImage: ACENamespace {}
 
 extension ACENamespaceWrapper where WrappedType == CGImage {
     
-    func transformedImage(_ transform: CGAffineTransform,
-                          zoomScale: CGFloat,
-                          sourceSize: CGSize,
-                          cropSize: CGSize,
-                          imageViewSize: CGSize) -> CGImage {
+    public func transformedImage(_ transform: CGAffineTransform,
+                                 zoomScale: CGFloat,
+                                 sourceSize: CGSize,
+                                 cropSize: CGSize,
+                                 imageViewSize: CGSize) -> CGImage {
         let `self` = wrappedValue
-
+        
         let expectedWidth = floor(sourceSize.width / imageViewSize.width * cropSize.width) / zoomScale
         let expectedHeight = floor(sourceSize.height / imageViewSize.height * cropSize.height) / zoomScale
         let outputSize = CGSize(width: expectedWidth, height: expectedHeight)
