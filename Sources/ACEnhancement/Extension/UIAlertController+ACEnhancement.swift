@@ -27,6 +27,7 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
      )
      */
     public static func showAlert(inVC: UIViewController,
+                                 preferredStyle: UIAlertController.Style = .alert,
                                  darkStyle: Bool = false,
                                  titleText: String? = nil,
                                  messageText: String? = nil,
@@ -35,7 +36,7 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
                                  destructiveTuple: (String?, ((UIAlertAction) -> Void)?) = (nil, nil)) {
         let alert = UIAlertController(title: titleText,
                                       message: messageText,
-                                      preferredStyle: .alert)
+                                      preferredStyle: preferredStyle)
         if darkStyle,
            #available(iOS 13, *) {
             alert.overrideUserInterfaceStyle = .dark
@@ -83,12 +84,13 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
     UIAlertController.ace.showToast(inVC: self, uiStyle: .dark, dismissAfter: 1, messageText: "toast")
      */
     public static func showToast(inVC: UIViewController,
+                                 preferredStyle: UIAlertController.Style = .alert,
                                  darkStyle: Bool = false,
                                  dismissAfter: TimeInterval = 0.25,
                                  messageText: String) {
         let alert = UIAlertController(title: "",
                                       message: messageText,
-                                      preferredStyle: .alert)
+                                      preferredStyle: preferredStyle)
         if darkStyle,
            #available(iOS 13, *) {
             alert.overrideUserInterfaceStyle = .dark
