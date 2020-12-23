@@ -15,4 +15,6 @@ Xcode > File > Swift Packages > Add Package Dependency
 import ACEnhancement
 ```
 
+If you don't want to import it everywhere, just import it in your `AppDelegate.swift`
+
 > todo: documentation
