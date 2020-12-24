@@ -11,6 +11,34 @@ import UIKit
 extension ACENamespaceWrapper where WrappedType == UIAlertController {
     
     /** sample
+     `darkStyle` only available for iOS 13
+
+    UIAlertController.ace.showToast(inVC: self, uiStyle: .dark, dismissAfter: 1, messageText: "toast")
+     */
+    public static func showToast(inVC: UIViewController,
+                                 preferredStyle: UIAlertController.Style = .alert,
+                                 darkStyle: Bool = false,
+                                 dismissAfter: TimeInterval = 0.25,
+                                 messageText: String) {
+        let alert = UIAlertController(title: "",
+                                      message: messageText,
+                                      preferredStyle: preferredStyle)
+        if darkStyle,
+           #available(iOS 13, *) {
+            alert.overrideUserInterfaceStyle = .dark
+        }
+        alert.ace_attributedMessage(NSAttributedString(string: messageText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0)]))
+
+        inVC.present(alert, animated: true) {
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+            alert.dismiss(animated: true) {
+            }
+        }
+    }
+    
+    /** sample
         `darkStyle` only available for iOS 13
     
      UIAlertController.ace.showAlert(
@@ -78,31 +106,74 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
         }
     }
     
-    /** sample
-     `darkStyle` only available for iOS 13
-
-    UIAlertController.ace.showToast(inVC: self, uiStyle: .dark, dismissAfter: 1, messageText: "toast")
+    /**
+    `darkStyle` only available for iOS 13
+     
+     @param `inputInfoTuples` :  (placeholder, keyboardType)
+     
+     // sample code
+     UIAlertController.ace.showInputAlert(
+         inVC: self,
+         darkStyle: true,
+         titleText: "test input",
+         messageText: "input sth",
+         inputInfoTuples: [("tf1", UIKeyboardType.numberPad), ("tf2", UIKeyboardType.default)],
+         confirmTuple: ("add", { (action, results) in
+             debugPrint(results)
+         }),
+         cancelTuple: ("cancel", { (action) in
+             debugPrint("did cancel")
+         })
+     )
      */
-    public static func showToast(inVC: UIViewController,
-                                 preferredStyle: UIAlertController.Style = .alert,
-                                 darkStyle: Bool = false,
-                                 dismissAfter: TimeInterval = 0.25,
-                                 messageText: String) {
-        let alert = UIAlertController(title: "",
+    public static func showInputAlert(
+        inVC: UIViewController,
+        darkStyle: Bool = false,
+        titleText: String? = nil,
+        messageText: String? = nil,
+        inputInfoTuples: [(String?, UIKeyboardType)] = [],
+        confirmTuple: (String?, ((UIAlertAction, [String?]) -> Void)?) = (nil, nil),
+        cancelTuple: (String?, ((UIAlertAction) -> Void)?) = (nil, nil)
+    ) {
+        let alert = UIAlertController(title: titleText,
                                       message: messageText,
-                                      preferredStyle: preferredStyle)
+                                      preferredStyle: .alert)
         if darkStyle,
            #available(iOS 13, *) {
             alert.overrideUserInterfaceStyle = .dark
         }
-        alert.ace_attributedMessage(NSAttributedString(string: messageText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0)]))
-
-        inVC.present(alert, animated: true) {
+                
+        for inputTuple in inputInfoTuples {
+            alert.addTextField { (textField: UITextField) in
+                textField.placeholder = inputTuple.0
+                textField.keyboardType = inputTuple.1
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-            alert.dismiss(animated: true) {
-            }
+        alert.addAction(
+            UIAlertAction(title: confirmTuple.0, style: .default, handler: { (action: UIAlertAction) in
+                var confirmResults: [String?] = []
+                if let textFields = alert.textFields {
+                    for tf in textFields {
+                        confirmResults.append(tf.text)
+                    }
+                }
+                if let confirmAction = confirmTuple.1 {
+                    confirmAction(action, confirmResults)
+                }
+            }))
+        
+        if let cancelAction = cancelTuple.1,
+           let cancelString = cancelTuple.0,
+           !cancelString.isEmpty {
+            let cancelAlertAction = UIAlertAction(
+                title: cancelString,
+                style: .cancel,
+                handler: cancelAction)
+            alert.addAction(cancelAlertAction)
+        }
+        
+        inVC.present(alert, animated: true) {
         }
     }
 }
