@@ -173,4 +173,12 @@ extension ACENamespaceWrapper where WrappedType == UIImage {
         UIGraphicsEndImageContext()
         return resultImg
     }
+    
+    public static func scale(image: UIImage, to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        let resImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resImage
+    }
 }
