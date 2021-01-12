@@ -45,24 +45,28 @@ class ViewController: UIViewController {
 //
 //        }
         
-        ace_delay(by: 1.5) {
-            UIAlertController.ace.showInputAlert(
-                inVC: self,
-                darkStyle: true,
-                titleText: "test input",
-                messageText: "input sth",
-                inputInfoTuples: [("tf1", UIKeyboardType.numberPad),
-                                  ("tf2", UIKeyboardType.default)],
-                confirmTuple: ("add", { (action, results) in
-                    debugPrint(results)
-                }),
-                cancelTuple: ("cancel", { (action) in
-                    debugPrint("did cancel")
-                })
-            )
-
-        }
+//        ace_delay(by: 1.5) {
+//            UIAlertController.ace.showInputAlert(
+//                inVC: self,
+//                darkStyle: true,
+//                titleText: "test input",
+//                messageText: "input sth",
+//                inputInfoTuples: [("tf1", UIKeyboardType.numberPad),
+//                                  ("tf2", UIKeyboardType.default)],
+//                confirmTuple: ("add", { (action, results) in
+//                    debugPrint(results)
+//                }),
+//                cancelTuple: ("cancel", { (action) in
+//                    debugPrint("did cancel")
+//                })
+//            )
+//
+//        }
         
+        
+        ace_delay(by: 1.0) {
+            UIAlertController.ace.showToast(messageText: "find top and show")
+        }
     }
 
 

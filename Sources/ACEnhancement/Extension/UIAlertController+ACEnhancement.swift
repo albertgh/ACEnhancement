@@ -15,10 +15,10 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
 
     UIAlertController.ace.showToast(inVC: self, uiStyle: .dark, dismissAfter: 1, messageText: "toast")
      */
-    public static func showToast(inVC: UIViewController,
+    public static func showToast(inVC: UIViewController? = nil,
                                  preferredStyle: UIAlertController.Style = .alert,
                                  darkStyle: Bool = false,
-                                 dismissAfter: TimeInterval = 0.25,
+                                 dismissAfter: TimeInterval = 1.5,
                                  messageText: String) {
         let alert = UIAlertController(title: "",
                                       message: messageText,
@@ -29,11 +29,23 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
         }
         alert.ace_attributedMessage(NSAttributedString(string: messageText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0)]))
 
-        inVC.present(alert, animated: true) {
+        var presentingVC: UIViewController? = inVC
+        if inVC == nil {
+            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            if var topController = keyWindow?.rootViewController {
+                while let presentedViewController = topController.presentedViewController {
+                    topController = presentedViewController
+                }
+                presentingVC = topController
+            }
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-            alert.dismiss(animated: true) {
+        if let presentingVC = presentingVC {
+            presentingVC.present(alert, animated: true) {
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+                alert.dismiss(animated: true) {
+                }
             }
         }
     }
@@ -54,7 +66,7 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
         ]
      )
      */
-    public static func showAlert(inVC: UIViewController,
+    public static func showAlert(inVC: UIViewController? = nil,
                                  preferredStyle: UIAlertController.Style = .alert,
                                  darkStyle: Bool = false,
                                  titleText: String? = nil,
@@ -102,7 +114,19 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
             alert.addAction(destructiveAlertAction)
         }
         
-        inVC.present(alert, animated: true) {
+        var presentingVC: UIViewController? = inVC
+        if inVC == nil {
+            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            if var topController = keyWindow?.rootViewController {
+                while let presentedViewController = topController.presentedViewController {
+                    topController = presentedViewController
+                }
+                presentingVC = topController
+            }
+        }
+        if let presentingVC = presentingVC {
+            presentingVC.present(alert, animated: true) {
+            }
         }
     }
     
@@ -127,7 +151,7 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
      )
      */
     public static func showInputAlert(
-        inVC: UIViewController,
+        inVC: UIViewController? = nil,
         darkStyle: Bool = false,
         titleText: String? = nil,
         messageText: String? = nil,
@@ -173,7 +197,19 @@ extension ACENamespaceWrapper where WrappedType == UIAlertController {
             alert.addAction(cancelAlertAction)
         }
         
-        inVC.present(alert, animated: true) {
+        var presentingVC: UIViewController? = inVC
+        if inVC == nil {
+            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            if var topController = keyWindow?.rootViewController {
+                while let presentedViewController = topController.presentedViewController {
+                    topController = presentedViewController
+                }
+                presentingVC = topController
+            }
+        }
+        if let presentingVC = presentingVC {
+            presentingVC.present(alert, animated: true) {
+            }
         }
     }
 }
